@@ -25,8 +25,7 @@ dat_pop <- tibble(
 dat <- dat
 mutate(age_group =case(when(
   age < 18 ~ "young",
-  TRUE ~ old
-))
+  TRUE ~ old))
 
 #long code
 dat %>%
