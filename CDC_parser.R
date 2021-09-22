@@ -63,7 +63,7 @@ CDC_parser <- function(year, url) {
   # Drop empty fields
   raw_file <- raw_file %>%
     select(-contains("drop"))
-
+  
   # Save 'all_deaths' file
   assign(eval(all_deaths_name), raw_file)
   save(list = all_deaths_name, file = all_deaths_save)
@@ -209,15 +209,3 @@ all_guns %>%
 
 save(all_guns, file = "all_guns.RData")
 write.csv(all_guns, file = "full_data.csv")
-© 2021 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About

@@ -1,14 +1,14 @@
 library(tidyverse)
-librayr(dplyr)
+library(dplyr)
 library(tidyr)
-library(magritter)
 library(ggplot)
+
 
 httpgd::hgd()
 httpgd::hgd_browse()
 
 dat <- read_csv("https://github.com/fivethirtyeight/guns-data/raw/master/full_data.csv") %>%
-    select(-X1)
+#%%
 
 dat_counts <- dat %>%
     count(race, year)
