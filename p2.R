@@ -27,6 +27,7 @@ library(dplyr)
 library(tidyr)
 library(magritter)
 library(ggplot2)
+library()
 
 httpgd::hgd()
 httpgd::hgd_browse()
@@ -46,9 +47,9 @@ dat_pop <- tibble(
 #' Used this information to build the values.
 
 guns <- guns
- mutate(age_group = case(when(
+ mutate(age_group = case_when(
   age < 18 ~ "young",
-  TRUE ~ old)))
+  TRUE ~ old))
   
   #long code
   guns
@@ -66,6 +67,47 @@ guns <- guns
 #What type of variation occurs within my variables?
 #What type of covariation occurs between my variables?
 #outliers? Significant? 
+#is there a strong correlation between the variables?
+
+guns <- group_by(suicide, sex, year, month)
+delay <- summarise(guns,
+                   count = n(),
+                   dist = mean(distance, na.rm = TRUE),
+                   delay = mean(arr_delay, na.rm = TRUE)
+)
+
+
+#######graph 1 - line graph age group by months 
+#group the months by year 
+#group the age group by 0-17, 18-24, 25-44,  65+, *new variables/*
+summary(guns)
+#create new variable "age"
+guns$growth[guns$age < 17] < -"0-17"
+guns$growth[guns$age >= 18 & guns$age <=24]<-"18-24"
+guns$growth[guns$age >=25 & guns$age<=44]<-"25-44"
+guns$growth[guns$age >=45 & guns$age <=64]<-"45-64"
+guns$growth[guns$age >65]<-"65+"
+guns  #Check to see if it appears
+
+
+###Fixing the order###
+whatever <- ordered(guns$growth, c( "0-17", "18-24", "25-44","45-64", "65+")) #order the categorical vari
+table(whatever) #Will reorder
+
+guns_2 <- guns[guns$intent == "Suicide",]
+guns_age_30 <- guns[guns$age > 30,]
+ 
+ggplot(data = guns_2, mapping = aes(x = month, y = growth, color = growth)) +
+    facet_wrap(~year, nrow = 1)  + 
+    geom_line(aes("suicide"))
+
+
+ 
   
+
+
+
+#> `geom_smooth()` using method = 'loess' and formula 'y ~ x'
   
+
   
