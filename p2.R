@@ -95,13 +95,26 @@ whatever <- ordered(guns$growth, c( "0-17", "18-24", "25-44","45-64", "65+")) #o
 table(whatever) #Will reorder
 
 guns_2 <- guns[guns$intent == "Suicide",]
-guns_age_30 <- guns[guns$age > 30,]
+guns_age_30 <- guns[guns$age > 30,] #EXAMPLE
+
+gap_count <- gapminder :: gapminder %>%
+  group_by(year, continent) %>%
+  summarise(
+    gdpPercap = weighted.mean(gdpPercap, pop), 
+    pop = sum(pop)) %>%
+  ungroup() %>%
  
-ggplot(data = guns_2, mapping = aes(x = month, y = growth, color = growth)) +
+ggplot(data = guns, mapping = aes(x = month, y = age, color = growth)) +
     facet_wrap(~year, nrow = 1)  + 
-    geom_line(aes("suicide"))
+    geom_line(data = guns_2, aes(growth)) +  labs( x="Months ", y="Age") +
+  labs(color = "Age") + ggtitle("Suicide Rates by Age: 2012-2014")
+
+#graph 2 side by side bar graph
+#between womeen and men by race
 
 
+
+ 
  
   
 
