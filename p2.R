@@ -77,44 +77,93 @@ delay <- summarise(guns,
 )
 
 
-#######graph 1 - line graph age group by months 
+#######graph 1 - line graph age group by months in years
 #group the months by year 
 #group the age group by 0-17, 18-24, 25-44,  65+, *new variables/*
 summary(guns)
 #create new variable "age"
-guns$growth[guns$age < 17] < -"0-17"
-guns$growth[guns$age >= 18 & guns$age <=24]<-"18-24"
-guns$growth[guns$age >=25 & guns$age<=44]<-"25-44"
-guns$growth[guns$age >=45 & guns$age <=64]<-"45-64"
+guns$growth[guns$age < 14] < -"0-14"
+guns$growth[guns$age >= 15 & guns$age <=24]<-"15-24"
+guns$growth[guns$age >=25 & guns$age<=34]<-"25-34"
+guns$growth[guns$age >=35 & guns$age<=44]<-"35-44"
+guns$growth[guns$age >=45 & guns$age<=54]<-"45-54"
+guns$growth[guns$age >=55 & guns$age<=64]<-"55-64"
 guns$growth[guns$age >65]<-"65+"
 guns  #Check to see if it appears
 
 
 ###Fixing the order###
-whatever <- ordered(guns$growth, c( "0-17", "18-24", "25-44","45-64", "65+")) #order the categorical vari
+whatever <- ordered(guns$growth, c( "0-14", "15-24", "25-34", "35-44", "45-54","55-64", "65+")) #order the categorical vari
 table(whatever) #Will reorder
 
 guns_2 <- guns[guns$intent == "Suicide",]
 guns_age_30 <- guns[guns$age > 30,] #EXAMPLE
+  ##suicide rates by months, years.
+guns_2 %>%
+  filter(intent == "Suicide") %>%
+  group_by(year) %>%
+  summarize(suicides = length(year))
+guns_2 %>%
+drop_na(growth) 
+ggplot(aes(x = month, y = age)) +
+geom_line(aes(color = growth)) +
+  labs(x = "Months",
+       y = "Age",
+       title ="Suicide Rates by Age: 2012-2014") +
+  facet_wrap(~year, nrow = 1) +
+  theme_bw()
 
-gap_count <- gapminder :: gapminder %>%
-  group_by(year, continent) %>%
-  summarise(
-    gdpPercap = weighted.mean(gdpPercap, pop), 
-    pop = sum(pop)) %>%
-  ungroup() %>%
- 
+
+drop_na(growth) 
+
+ggplot(data = guns_2, aes(x = month, y = growth)) +
+geom_bar(position = "dodge", 
+         alpha = 0.5) +
+facet_wrap(~years, nrow = 1) + 
+      labs(title = "Suicide Rates by Age: 2012-2014",
+           subtitle = "Suicides By White Men Peak in Middle Age", 
+           x="Months ", y="Age", color = "Age") 
+
+##brad help
+df2<-
+  guns%>%
+  filter(intent == "Suicide")%>%
+  group_by(race,age,sex)%>%
+  summarize(suicides = length(year))
+#Then:
+  df2%>%
+  ggplot(aes(x = age, y = suicides)) +
+  geom_line(aes(color = sex)) +
+  labs(x = "Age",
+       y = "Suicides",
+       title = "Suicides By Non-Whites Decline With Age",
+       subtitle = "Suicides By White Men Peak in Middle Age") +
+  facet_wrap(~race, scales = "free") +
+  theme_bw()
+  
+#######
+  
 ggplot(data = guns, mapping = aes(x = month, y = age, color = growth)) +
     facet_wrap(~year, nrow = 1)  + 
-    geom_line(data = guns_2, aes(growth)) +  labs( x="Months ", y="Age") +
+    geom_line(data = guns_2, aes(race)) +  labs( x="Months ", y="Age") +
   labs(color = "Age") + ggtitle("Suicide Rates by Age: 2012-2014")
 
 #graph 2 side by side bar graph
-#between womeen and men by race
-
-
-
+#between gender by race
  
+
+ggplot(data = guns, mapping = aes(x = , colour = ()))
+
+ggplot(data = guns, mapping = aes(y = year, x= race, colour = year)) +
+  geom_bar(stat ="identity")
+
+ggplot(data = guns, mapping = aes(x = intent, y = race)) + 
+  geom_freqpoly(mapping = aes(colour = race), binwidth = 500)
+
+
+#graph 3 - what month has the highest suicide during the year?
+
+
  
   
 

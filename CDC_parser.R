@@ -1,6 +1,3 @@
-#' Pull CDC Death data
-#@param
-
 # This code parses data from the CDC's Multiple Cause of Death datafile for FiveThirtyEight's 
 # "Gun Death in America" project.
 # This code produces clean dataframes of firearm deaths and suicides (firearm and non-firearm).
@@ -63,7 +60,7 @@ CDC_parser <- function(year, url) {
   # Drop empty fields
   raw_file <- raw_file %>%
     select(-contains("drop"))
-  
+
   # Save 'all_deaths' file
   assign(eval(all_deaths_name), raw_file)
   save(list = all_deaths_name, file = all_deaths_save)
