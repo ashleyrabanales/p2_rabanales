@@ -20,18 +20,36 @@ While their visualizations focused on yearly averages, our client wants to creat
 
 ### Python translation
 
-- [ ] Translate [FiveThirtyEight's CDC_parser.R script](https://github.com/fivethirtyeight/guns-data/blob/master/CDC_parser.R) into a Python script.
-- [ ] Verify that your output matches their results.
+- [x] Translate [FiveThirtyEight's CDC_parser.R script](https://github.com/fivethirtyeight/guns-data/blob/master/CDC_parser.R) into a Python script.
+- [x] Verify that your output matches their results.
 - [ ] Build new data sets that use data through 2019.
 
 ### Client needs (charts and munging done in Python and R)
 
-- [ ] Provide a brief summary of the [FiveThirtyEight article](https://fivethirtyeight.com/features/gun-deaths/).
-    - [ ] Create one plot that provides similar insight to their visualization in the article. It does not have to look like theirs.
-    - [ ] Write a short paragraph summarizing their article.
+- [x] Provide a brief summary of the [FiveThirtyEight article](https://fivethirtyeight.com/features/gun-deaths/).
+    - [x] Create one plot that provides similar insight to their visualization in the article. It does not have to look like theirs.
+    - [x] Write a short paragraph summarizing their article.
 - [ ] Address the client's need for emphasis areas of their commercials for different seasons of the year.
-    - [ ] Provide plots that help them know the different potential groups (variables) they could address in different seasons (2-4 visualizations seem necessary).
-    - [ ] Write a short paragraph describing each image.
+    - [x] Provide plots that help them know the different potential groups (variables) they could address in different seasons (2-4 visualizations seem necessary).
+    - [x] Write a short paragraph describing each image.
+
+
+- Article Summary
+The article is based off the annual gun death in America. The data collect from the Center of Disease Control and Prevention’s Mulitple Cause of Death database. All data is collect from the 50 states from 2012-2014. Each intent is identify as suicide, homocide, accidental, or undetermined. They used different databases to determine the mass shooting, police officers shooting, and terrorism.
 
 
 
+
+
+- Graph 1
+In graph 1 is a line graph visual of the total of suicides by race, enthinicity, and gender from the twelve months of the year 2012, 2013, and 2014. From the ages of 0-17, 18-24, 25-44, 45-64, 65+.
+
+- Graph 2 
+In graph 2 is a line graph visual with the numbers of suicides by race,ethnicity,and age 
+from the year 2012-2014, separate by gender. As we can see White males and females
+have higher numbers of suicides, leading next to Blacks and Hispanics, and last
+to be Native American/Native Alaskan and Asian/Pacific Islander. Males have a 
+higher rate of suicides than females. 
+
+- Graph 3 
+In graph 3 is a side by side barchart representing the types of intent by the total suicides.

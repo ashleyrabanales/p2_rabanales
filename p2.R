@@ -1,34 +1,10 @@
-#The FiveThirtyEight data is a bit old, and our client would like us to use the
-#most recent data from the CDC. He would also like the parser script to use 
-#Python instead of R.
-
-#While their visualizations focused on yearly averages, our client wants to create
-#commercials that help reduce gun deaths in the US. They would like to target the 
-#commercials in different seasons of the year (think month variable) to audiences 
-#that could significantly reduce gun deaths. Our challenge is to summarize and 
-#visualize seasonal trends across the other variables in these data.
-
-# The goals:
-  ####PYTHON TRANSLATION
-#1. Translate FiveThirtyEight's CDC_parser.R script into a Python script.
-#2.  Verify that your output matches their results.
-#3. Build new data sets that use data through 2019.
-#Client needs (charts and munging done in Python and R)
-
-
-#1. Provide a brief summary of the FiveThirtyEight article.
-#   a.Create one plot that provides similar insight to their visualization in the article. It does not have to look like theirs.
-#   b.Write a short paragraph summarizing their article.
-#2. Address the client's need for emphasis areas of their commercials for different seasons of the year.
-#   a. Provide plots that help them know the different potential groups (variables) they could address in different seasons (2-4 visualizations seem necessary).
-#   b. Write a short paragraph describing each image.
 library(tidyverse)
 library(dplyr)
 library(tidyr)
 library(magritter)
 library(ggplot2)
-library()
 
+pacman::p_load(ggfittext, waffle, tidyverse, hrbrthemes)
 httpgd::hgd()
 httpgd::hgd_browse()
 
@@ -46,11 +22,16 @@ dat_pop <- tibble(
 
 #' Used this information to build the values.
 
-guns <- guns
- mutate(age_group = case_when(
-  age < 18 ~ "young",
-  TRUE ~ old))
+guns <- guns %>%
+  mutate(age_group = case_when(
+    age < 18 ~ "young",
+    age >= 18 & age < 60 ~ "adult",
+    TRUE ~ "elder")
+  )
   
+guns_counts <- guns %>%
+  dplyr::count(race, year, age_group, month, intent)
+
   #long code
   guns
     group_by(race, year)
@@ -61,13 +42,8 @@ guns <- guns
   dat_counts <- dat  
   count(race, year)
   
-  dat_count %>%
+  guns_count %>%
     left_join(dat_pop, by = "race")
-  
-#What type of variation occurs within my variables?
-#What type of covariation occurs between my variables?
-#outliers? Significant? 
-#is there a strong correlation between the variables?
 
 guns <- group_by(suicide, sex, year, month)
 delay <- summarise(guns,
@@ -75,6 +51,31 @@ delay <- summarise(guns,
                    dist = mean(distance, na.rm = TRUE),
                    delay = mean(arr_delay, na.rm = TRUE)
 )
+
+data <- guns_counts_pop %>%
+  filter(intent != "NA")
+
+data %>%
+  dplyr::mutate(age_group = fct_relevel(age_group,
+                                        "young", "adult", "elder")) %>%
+  ggplot(aes(x = month, y = n, color = race)) +
+  geom_point(size = 1) +
+  facet_grid(age_group ~ intent)  +
+  theme_bw() +
+  labs(
+    title = "Gun Death Rates",
+    caption = "Data from FiveThirtyEight.",
+    tag = "Figure 1",
+    x = "Month",
+    y = "Count",
+    colour = "Race") +
+  scale_color_brewer(palette = "Set1")
+
+ggsave(file = "gun_visualizationR.png", width = 15, height = 7)
+#line graph
+
+
+
 
 
 #######GRAPH 1 - line graph age group by months in years
@@ -91,19 +92,17 @@ guns  #Check to see if it appears
 
 
 ###Fixing the order###
-whatever <- ordered(guns$growth, c( "0-17", "18-24", "25-34", "35-44", "45-54","55-64", "65+")) #order the categorical vari
+whatever <- ordered(guns$growth, c( "0-17", "18-24", "25-44", "45-64","65" )) #order the categorical vari
 table(whatever) #Will reorder
-
-guns_age_30 <- guns[guns$age > 30,] #EXAMPLE or use the filter statement
-  ##suicide rates by months, years.
 
 guns_20 <- guns %>%
   filter(intent == "Suicide") %>%
   na.omit(growth)
   group_by(race, sex, growth, year, month, age) %>%
   summarize(suicides = length(year)) #??
-  arrange(year, month, growth) #?? 
+  aggerate (year, month, growth) #?? 
   #(per_month <- summarize(year, month = n()))???
+  #aggregate ??
 guns_20 %>%
 ggplot(aes(x = month, y = age)) +
   geom_line(aes(color = growth))  +
@@ -114,6 +113,8 @@ ggplot(aes(x = month, y = age)) +
        color = "Age Group") +
   facet_wrap(~year, nrow = 1) +
   theme_bw()
+
+ggsave(filename = "Suicides_by_AgesR.png", width = 15, height = 7)
 
 ##brad help
 df2<-
@@ -131,7 +132,7 @@ df2<-
        subtitle = "Suicides By White Men Peak in Middle Age") +
   facet_wrap(~race, scales = "free") +
   theme_bw()
-  
+
   
 ######GRAPH-2 SIDE BY SIDE BARCHART######
 #######SUICIDES BY RACE, GENDER, AGE######
@@ -149,25 +150,50 @@ guns_all$sex <- factor(guns_all$sex, levels = c("F", "M"),
     geom_line(aes(color = race)) +
     labs(x = "Age",
          y = "Suicides",
-         title = "Death by Suicide", color = "Race/Enthicity",
-         subtitle = "Suicides By Race, Gender, and Age, 2012-2014", ) +
+         title = "Death by Suicide", color = "Race/Enthnicity",
+         subtitle = "Suicides By Race,Enthnicity, and Age, 2012-2014", ) +
     facet_wrap(~sex, nrow = 1) +    
     theme(strip.text.y = element_text(
-      size = 12, face = "bold.italic"
+      size = 15, face = "bold.italic"
     ))
     theme_bw()
+    
+ggsave(filename = "Suicides_by_raceR.png", width = 15, height = 7)
+  
+# In Graph 2 is a line graph visual with the numbers of suicides by race,ethnicity,and age 
+#from the year 2012-2014, separate by gender. As we can see White males and females
+#have higher numbers of suicides, leading next to Blacks and Hispanics, and last
+#to be Native American/Native Alaskan and Asian/Pacific Islander. Males to have a 
+#higher rate of suicides than females.
 
 
 
-#graph 3 - what month has the highest suicide during the year?
 
+#graph 3 - stack bar chart
+guns_bar <- guns %>%
+      filter(intent == "Homicide", "Suicide", "Accidental") %>%
+      group_by(sex,age,ethnicity,)
+      summarise(age, months= mean(months, na.rm = TRUE)) %>%
+  
+#Then:
+  guns%>%
+    ggplot(aes(y = age, x = intent)) +
+      geom_bar(stat = "intent")
+  guns
+      ggplot(aes(x = intent)) +
+      geom_bar(aes(color = race)) +
+      labs(x = "Age",
+           y = "Intent",
+           title = "Death by Intent", color = "Age",
+           subtitle = "Intent By Race/Enthicity, and Gender. 2012-2014", ) +
+      facet_wrap(~race, nrow = 1) +    
+      theme(strip.text.y = element_text(
+        size = 12, face = "bold.italic"
+      ))
+    theme_bw()
 
  
-  
 
-
-
-#> `geom_smooth()` using method = 'loess' and formula 'y ~ x'
   
 
   

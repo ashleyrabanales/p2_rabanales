@@ -54,3 +54,80 @@ raw_file.query('underlying_cause in @suicide_code').assign(
 #ifelse similar to np.where 
 suicide.underlying_cause.value_counts()
 ##to check if it filter
+
+ #raw_file
+
+    # https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.drop.html
+
+    drop_names = raw_file.filter(regex="drop").columns
+
+    # axis = 1 is for columns where axis = 0 is rows
+    raw_file = raw_file.drop(drop_names, axis=1)
+
+
+    #range only works in a loop- use list impression
+    #adding vectors together
+
+    suicide_code = ["X" + str(i) for i in range(60,85) ] + ["U03" ,"Y870"]
+
+    suicide = raw_file.query('underlying_cause in @suicide_code').assign(
+        gun = lambda x:np.where(x.underlying_cause.isin(['X72','X73','X74']), 1, 0),
+        year = year
+    )
+
+    #hathaway code
+
+    guns_ids = ["W32", "W33", "W34", "X72", "X73", "X74", "U014", "X93", "X94", "X95", "Y22", "Y23", "Y24", "Y350"]
+
+    intent_cond = [
+        (raw_file.underlying_cause.isin(["W32", "W33", "W34"])),
+        (raw_file.underlying_cause.isin(["X72", "X73", "X74"])),
+        (raw_file.underlying_cause.isin(["*U01.4", "X93", "X94", "X95",
+            "Y350"])),
+        (raw_file.underlying_cause.isin(["Y22", "Y23", "Y24"]))
+    ]
+
+    intent_val = ["Accidental", "Suicide", "Homicide", "Undetermined"]
+
+    weapon_ids= ["W32", "X72", "X93", "Y22"]
+
+    weapons_val = ['Handgun', 'Rifle etc']
+
+    weapons_cond = [
+        (raw_file.underlying_cause.isin(["W32", "X72", "X93","Y22"])),
+        (raw_file.underlying_cause.isin(["W33", "X73", "X94", "Y23"]))
+    ]
+#code help from cohen
+    age_val = [(raw_file.detail_age-1000),("NA"),("NA_real_")]
+
+    age_cond = [(round(raw_file.detail_age/1000,1)==1),(round(raw_file.detail_age/1000,1)==2),(raw_file.detail_age==9999)]
+
+    guns = raw_file.assign(
+            intent = np.select(intent_cond, intent_val, default = np.nan),
+            police = lambda x:np.where('underlying_cause' == "Y350", 1,0),
+            weapon = np.select(weapons_cond,weapons_val, default = 'Other/unknown'),
+            age = np.select(age_cond,age_val,default = 0),
+            year=year
+        ).query('underlying_cause in @guns_ids')#.drop(['age1','age2'],axis=1)
+
+    guns.police.value_counts()
+    
+
+    os.makedirs(folder_path, exist_ok=True)
+
+
+    suicide.to_pickle( tnames
+        .query('start_name == "suicide"')
+        .file_path_pickle
+        .to_numpy()[0])
+
+    guns.to_pickle( tnames
+        .query('start_name == "guns"')
+        .file_path_pickle
+        .to_numpy()[0])
+
+    raw_file.to_pickle(tnames
+        .query('start_name == "deaths"')
+        .file_path_pickle
+        .to_numpy()[0])
+
