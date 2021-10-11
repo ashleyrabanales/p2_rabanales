@@ -38,9 +38,6 @@ While their visualizations focused on yearly averages, our client wants to creat
 The article is based off the annual gun death in America. The data collect from the Center of Disease Control and Prevention’s Mulitple Cause of Death database. All data is collect from the 50 states from 2012-2014. Each intent is identify as suicide, homocide, accidental, or undetermined. They used different databases to determine the mass shooting, police officers shooting, and terrorism.
 
 
-
-
-
 - Graph 1
 In graph 1 is a line graph visual of the total of suicides by race, enthinicity, and gender from the twelve months of the year 2012, 2013, and 2014. From the ages of 0-17, 18-24, 25-44, 45-64, 65+.
 
@@ -52,4 +49,4 @@ to be Native American/Native Alaskan and Asian/Pacific Islander. Males have a
 higher rate of suicides than females. 
 
 - Graph 3 
-In graph 3 is a side by side barchart representing the types of intent by the total suicides.
+In graph 3 is a side by side barchart representing homocides by race.

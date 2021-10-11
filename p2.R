@@ -5,10 +5,9 @@ library(magritter)
 library(ggplot2)
 
 pacman::p_load(ggfittext, waffle, tidyverse, hrbrthemes)
-httpgd::hgd()
-httpgd::hgd_browse()
 
-guns <- read_csv("https://github.com/fivethirtyeight/guns-data/raw/master/full_data.csv") 
+guns <- read_csv("https://github.com/fivethirtyeight/guns-data/raw/master/full_data.csv") %>%
+  mutate(month_number = as.numeric(month))
 
 guns_counts <- guns %>%
   count(race, year)
@@ -39,7 +38,7 @@ guns_counts <- guns %>%
   #ungroup() <- find similar code?
   
   #short code
-  dat_counts <- dat  
+  guns_coun <- guns 
   count(race, year)
   
   guns_count %>%
@@ -97,24 +96,32 @@ table(whatever) #Will reorder
 
 guns_20 <- guns %>%
   filter(intent == "Suicide") %>%
-  na.omit(growth)
-  group_by(race, sex, growth, year, month, age) %>%
-  summarize(suicides = length(year)) #??
-  aggerate (year, month, growth) #?? 
-  #(per_month <- summarize(year, month = n()))???
-  #aggregate ??
+  mutate(growth = case_when(
+    #create new variable "age"
+    age <= 17 ~ "0-17",
+    age <= 24  ~ "18-24",
+    age <= 44 ~ "25-44",
+    age <= 64 ~ "45-64",
+    age >= 65 ~"65+"
+  )) %>%
+  na.omit(growth) %>%
+  group_by( growth, year,  month) %>%
+  summarize(suicides = n()) #??
+
 guns_20 %>%
-ggplot(aes(x = month, y = age)) +
+ggplot(aes(x = as.numeric(month), y = suicides)) +
   geom_line(aes(color = growth))  +
+  geom_point(aes(color = growth))  +
   labs(x = "Months",
-       y = "Age",
+       y = "Number of suicides",
        title ="Suicide Rates by Month",
        subtitle = "Suicides By Race, Gender, and Age, 2012-2014",
        color = "Age Group") +
-  facet_wrap(~year, nrow = 1) +
+  facet_wrap(~year , nrow = 1) +
+  scale_x_continuous(breaks = seq(2, 12, by = 2)) +
   theme_bw()
 
-ggsave(filename = "Suicides_by_AgesR.png", width = 15, height = 7)
+ggsave(filename = "SuicidesRates_by_AgeR.png", width = 15, height = 7)
 
 ##brad help
 df2<-
