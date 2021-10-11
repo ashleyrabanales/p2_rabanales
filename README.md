@@ -39,7 +39,7 @@ The article is based off the annual gun death in America. The data collect from 
 
 
 - Graph 1
-In graph 1 is a line graph visual of the total of suicides by race, enthinicity, and gender from the twelve months of the year 2012, 2013, and 2014. From the ages of 0-17, 18-24, 25-44, 45-64, 65+.
+In graph 1 is a line graph visual of the total of suicides by race, enthinicity, and gender from the twelve months of the following years 2012, 2013, and 2014. From the ages of 0-17, 18-24, 25-44, 45-64, 65+. The highest rate of suicides are in the age group between 45-64 and the lowest group 0-17. 
 
 - Graph 2 
 In graph 2 is a line graph visual with the numbers of suicides by race,ethnicity,and age 
