@@ -111,10 +111,6 @@ suicide.underlying_cause.value_counts()
         ).query('underlying_cause in @guns_ids')#.drop(['age1','age2'],axis=1)
 
     guns.police.value_counts()
-    
-
-    os.makedirs(folder_path, exist_ok=True)
-
 
     suicide.to_pickle( tnames
         .query('start_name == "suicide"')
