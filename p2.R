@@ -179,11 +179,11 @@ ggsave(filename = "Suicides_by_raceR.png", width = 15, height = 7)
 #graph 3 - stack bar chart
 guns_bar <- guns %>%
       filter(intent == "Homicide", "Suicide", "Accidental") %>%
-      group_by(sex,age,ethnicity,)
-      summarise(age, months= mean(months, na.rm = TRUE)) %>%
+      group_by( age, year,  month) %>%
+      summarize(suicides = n()) %>%
   
 #Then:
-  guns%>%
+  guns_bar
     ggplot(aes(y = age, x = intent)) +
       geom_bar(stat = "intent")
   guns

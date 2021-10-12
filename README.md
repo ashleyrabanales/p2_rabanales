@@ -22,7 +22,7 @@ While their visualizations focused on yearly averages, our client wants to creat
 
 - [x] Translate [FiveThirtyEight's CDC_parser.R script](https://github.com/fivethirtyeight/guns-data/blob/master/CDC_parser.R) into a Python script.
 - [x] Verify that your output matches their results.
-- [ ] Build new data sets that use data through 2019.
+- [x] Build new data sets that use data through 2019.
 
 ### Client needs (charts and munging done in Python and R)
 
@@ -35,11 +35,12 @@ While their visualizations focused on yearly averages, our client wants to creat
 
 
 - Article Summary
-The article is based off the annual gun death in America. The data collect from the Center of Disease Control and Prevention’s Mulitple Cause of Death database. All data is collect from the 50 states from 2012-2014. Each intent is identify as suicide, homocide, accidental, or undetermined. They used different databases to determine the mass shooting, police officers shooting, and terrorism.
+The article is based off the annual gun death in America. The data collect from the Center of Disease Control and Prevention’s Mulitple Cause of Death database. All data is collect from the 50 states from 2012-2014. Each intent is identify as suicide, homocide, accidental, or undetermined. Other variablaes are age, sex, enthicity, race, education, and home. They used different databases to determine the mass shooting, police officers shooting, and terrorism.
 
 
 - Graph 1
-In graph 1 is a line graph visual of the total of suicides by race, enthinicity, and gender from the twelve months of the following years 2012, 2013, and 2014. From the ages of 0-17, 18-24, 25-44, 45-64, 65+. The highest rate of suicides are in the age group between 45-64 and the lowest group 0-17. 
+In graph 1 is a line graph visual of the total of suicides by race, enthinicity, and gender from the twelve months of the following years 2012, 2013, and 2014. From the ages of 0-17, 18-24, 25-44, 45-64,
+65+. The highest rate of suicides are in the age group between 45-64 and the lowest group 0-17. In 2012 the highest suicides were in the month of May with the ages between 45-64.
 
 - Graph 2 
 In graph 2 is a line graph visual with the numbers of suicides by race,ethnicity,and age 
