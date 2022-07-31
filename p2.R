@@ -4,6 +4,7 @@ library(tidyr)
 library(magritter)
 library(ggplot2)
 
+
 pacman::p_load(ggfittext, waffle, tidyverse, hrbrthemes)
 
 guns <- read_csv("https://github.com/fivethirtyeight/guns-data/raw/master/full_data.csv") %>%
@@ -106,7 +107,7 @@ guns_20 <- guns %>%
   )) %>%
   na.omit(growth) %>%
   group_by( growth, year,  month) %>%
-  summarize(suicides = n()) #??
+  summarize(suicides = n()) 
 
 guns_20 %>%
 ggplot(aes(x = as.numeric(month), y = suicides)) +
