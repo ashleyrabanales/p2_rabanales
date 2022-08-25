@@ -1,20 +1,26 @@
-#%%
 
 import pandas as pd
 import numpy as np
+
+# %%
 #%%
 year = 2013
 url = "ftp.cdc.gov/pub/Health_Statistics/NCHS/Datasets/DVS/mortality/mort2013us.zip"
 #%%
-
-l2 <- str(year)[2:] 
-fnames <- ["deaths", "guns", "suicide"]
+l2 = str(year)[2:]
+fnames = ["deaths", "guns", "suicide"]
 #%%
 #leave for later the tibble of names
-pd.DataFrame
-#%%
+# leave for later
+pd.DataFrame({
+
+})
+
 format_widths = [19,1,40,2,1,1,2,2,1,4,1,2,2,2,2,1,1,1,16,4,
 1,1,1,1,34,1,1,4,3,1,3,3,2,1,281,1,2,1,1,1,1,33,3,1,1]
+# %%
+# check to read all lines at the end
+# using local file but want to use URL
 
 format_names = ["drop1", "res_status", "drop2", "education_89", "education_03", "education_flag", "month", 
 "drop3", "sex", "detail_age", "age_flag", "age_recode", "age_recode2", "age_group", 
